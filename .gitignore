@@ -1,0 +1,11 @@
+.DS_Store
+.java-version
+.classpath
+.project
+.settings/
+
+data/out.csv
+reports/
+target/
+testfiles/
+
