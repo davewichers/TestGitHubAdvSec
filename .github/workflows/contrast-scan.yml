@@ -45,6 +45,7 @@ jobs:
         distribution: 'zulu'
     - name: Build WAR
       run: mvn test
+      run: ls -l target/
     # Scan Artifact
     - name: Contrast Scan Action
       uses: Contrast-Security-OSS/contrastscan-action@v3.0.1
