@@ -40,10 +40,12 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+    - name: Java 8
       uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'zulu'
+    - name: Compile
       run: mvn compile
     # Scan Artifact
     - name: Contrast Scan Action
@@ -53,7 +55,7 @@ jobs:
         apiKey: ${{ secrets.CONTRAST_API_KEY }}
         orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
         authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
-    #Upload the results to GitHub
+    # Upload the results to GitHub
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
       with:
