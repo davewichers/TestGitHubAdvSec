@@ -37,10 +37,18 @@ jobs:
     - uses: actions/checkout@v3
     # Build the war
     - name: Build
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'zulu'
       run: mvn compile
     # Scan Artifact
     - name: Contrast Scan Action
-      uses: Contrast-Security-OSS/contrastscan-action@7352a45d9678ec8a434cf061b07ffb51c1e351a1
+      uses: Contrast-Security-OSS/contrastscan-action@3.0.1
       with:
         artifact: target/benchmark.war # replace this path with the path to your built artifact
         apiKey: ${{ secrets.CONTRAST_API_KEY }}
