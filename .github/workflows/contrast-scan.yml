@@ -43,6 +43,7 @@ jobs:
       with:
         java-version: '8'
         distribution: 'zulu'
+    - name: Compile
       run: mvn compile
     # Scan Artifact
     - name: Contrast Scan Action
