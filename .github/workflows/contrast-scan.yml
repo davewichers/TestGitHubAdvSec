@@ -45,6 +45,7 @@ jobs:
         distribution: 'zulu'
     - name: Build WAR
       run: mvn test
+    - name: Verify WAR built
       run: ls -l target/
     # Scan Artifact
     - name: Contrast Scan Action
