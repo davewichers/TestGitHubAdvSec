@@ -44,7 +44,7 @@ jobs:
         java-version: '8'
         distribution: 'zulu'
     - name: Build WAR
-      run: mvn test
+      run: mvn package
     - name: Verify WAR built
       run: ls -l target/
     # Scan Artifact
