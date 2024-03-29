@@ -47,7 +47,7 @@ jobs:
       run: mvn compile
     # Scan Artifact
     - name: Contrast Scan Action
-      uses: Contrast-Security-OSS/contrastscan-action@3.0.1
+      uses: Contrast-Security-OSS/contrastscan-action@v3.0.1
       with:
         artifact: target/benchmark.war # replace this path with the path to your built artifact
         apiKey: ${{ secrets.CONTRAST_API_KEY }}
