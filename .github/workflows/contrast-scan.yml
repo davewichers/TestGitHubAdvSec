@@ -34,18 +34,15 @@ jobs:
     runs-on: ubuntu-latest
     # check out project
     steps:
-    - uses: actions/checkout@v3
-    # Build the war
-    - name: Build
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Java 8
+    # Build the war
+    - name: Build
       uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'zulu'
-    - name: Compile
       run: mvn compile
     # Scan Artifact
     - name: Contrast Scan Action
