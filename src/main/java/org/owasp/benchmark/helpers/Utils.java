@@ -17,6 +17,7 @@
  */
 package org.owasp.benchmark.helpers;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -240,7 +241,7 @@ public class Utils {
             // command:\n");
             out.write("Here is the standard output of the command:<br>");
             String s = null;
-            while ((s = stdInput.readLine()) != null) {
+            while ((s = BoundedLineReader.readLine(stdInput, 5_000_000)) != null) {
                 out.write(ESAPI.encoder().encodeForHTML(s));
                 out.write("<br>");
             }
@@ -249,7 +250,7 @@ public class Utils {
             // System.out.println("Here is the standard error of the command (if
             // any):\n");
             out.write("<br>Here is the std err of the command (if any):<br>");
-            while ((s = stdError.readLine()) != null) {
+            while ((s = BoundedLineReader.readLine(stdError, 5_000_000)) != null) {
                 out.write(ESAPI.encoder().encodeForHTML(s));
                 out.write("<br>");
             }
@@ -273,13 +274,13 @@ public class Utils {
             StringBuffer out = new StringBuffer();
             StringBuffer outError = new StringBuffer();
 
-            while ((s = stdInput.readLine()) != null) {
+            while ((s = BoundedLineReader.readLine(stdInput, 5_000_000)) != null) {
                 out.append(s).append("\n");
             }
             resp.add(new XMLMessage(out.toString()));
             // read any errors from the attempted command
             resp.add(new XMLMessage("Here is the std err of the command (if any):"));
-            while ((s = stdError.readLine()) != null) {
+            while ((s = BoundedLineReader.readLine(stdError, 5_000_000)) != null) {
                 outError.append(s).append("\n");
             }
 
@@ -320,7 +321,7 @@ public class Utils {
         try (FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr); ) {
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 sourceLines.add(line);
             }
         } catch (Exception e) {
