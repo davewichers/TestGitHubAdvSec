@@ -26,7 +26,7 @@ permissions:
 
 name: Scan analyze workflow
 jobs:
-  build-and-scan:
+  contrast-codesec:
     permissions:
         contents: read # for actions/checkout
         security-events: write # for github/codeql-action/upload-sarif
@@ -34,20 +34,29 @@ jobs:
     runs-on: ubuntu-latest
     # check out project
     steps:
-    - uses: actions/checkout@v3
-    # Since Contrast Scan is designed to run against your deployable artifact, the steps to build your artifact should go here.
-    # -name: Build Project
-    # ...
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    # Build the war
+    - name: Java 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'zulu'
+    - name: Build WAR
+      run: mvn package
+    - name: Verify WAR built
+      run: ls -l target/
     # Scan Artifact
     - name: Contrast Scan Action
-      uses: Contrast-Security-OSS/contrastscan-action@7352a45d9678ec8a434cf061b07ffb51c1e351a1
+      uses: Contrast-Security-OSS/contrastscan-action@v3.0.1
       with:
-        artifact: mypath/target/myartifact.jar # replace this path with the path to your built artifact
+        artifact: target/benchmark.war # replace this path with the path to your built artifact
         apiKey: ${{ secrets.CONTRAST_API_KEY }}
         orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
         authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
-    #Upload the results to GitHub
+    # Upload the results to GitHub
     - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: results.sarif # The file name must be 'results.sarif', as this is what the Github Action will output
